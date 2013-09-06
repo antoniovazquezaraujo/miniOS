@@ -1,0 +1,42 @@
+MAMMOTH 0.0.2 - Readme Documentation
+Hello, thank you very much for your interest in the Mammoth Operating System, by Rohedin Media.
+For full documentation on the uses of this program, please visit our Launchpad site:
+https://launchpad.net/mammoth-os
+
+COMPILATION REQUIREMENTS
+Compilation of this program was tested on Linux Mint 5.0 (based off Ubuntu 8.10), but should
+work on any Linux installation with the following programs installed:
+
+gcc (tested with version 4.3.2)
+nasm (tested with version 2.03.01)
+ld (tested with version 2.18.93.20081009)
+cat (tested with version 6.10)
+
+COMPILING:
+Mammoth OS comes with it's own automatic compilation script, so it should be easy enough for
+anybody to compile. The script compiles the C and ASM (to make the .o files), links them
+together to form a binary file, then creates a floppy image with GRUB and Mammoth OS.
+To do this, type this in a terminal whilst in the mammoth directory:
+./build.sh
+
+If you get an error about permissions, run this first:
+chmod 777 ./build.sh
+
+After that it should work perfectly. The floppy image is called "floppy.img" and is saved
+in the 'build' directory.
+
+BOOTING MAMMOTH:
+You can then use the floppy image created to boot mammoth. You can either extract it onto
+a real floppy disc or CD, or use the image with a Virtual PC emulator, such as VirtualBox
+or qemu.
+
+When you boot the disc, you'll be brought to a GRUB boot screen. Before you can use Mammoth
+you must run the following commands to boot it:
+
+kernel 200+25
+boot
+
+Mammoth will then start.
+
+Thanks for your interest,
+The Mammoth Team.
