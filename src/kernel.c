@@ -17,7 +17,7 @@
 //And list functions for later on.
 int lastLine = -1;
 int csr_x = 0, csr_y = 0;
-unsigned short *textmemptr = 0xB8000;
+unsigned short *textmemptr = (unsigned short*)0xB8000;
 int attrib = 0x0F;
 
 void move_csr(void)
@@ -86,32 +86,38 @@ void k_clear_screen() // This function will clear the screen of all characters b
 
 
 // This function will print character to the screen by copying them to the video memory.
-void k_printline(unsigned char c)
+void k_printChar(char c){
+	k_printlineN(&c,0);
+}
+void k_printline(char* c){
+	k_printlineN(c,0);
+}
+void k_printlineN(char* c, int dummy)
 {
     unsigned short *where;
     unsigned att = attrib << 8;
 
     /* Handle a backspace, by moving the cursor back one space */
-    if(c == 0x08)
+    if(*c == 0x08)
     {
         if(csr_x != 0) csr_x--;
     }
     /* Handles a tab by incrementing the cursor's x, but only
     *  to a point that will make it divisible by 8 */
-    else if(c == 0x09)
+    else if(*c == 0x09)
     {
         csr_x = (csr_x + 8) & ~(8 - 1);
     }
     /* Handles a 'Carriage Return', which simply brings the
     *  cursor back to the margin */
-    else if(c == '\r')
+    else if(*c == '\r')
     {
         csr_x = 0;
     }
     /* We handle our newlines the way DOS and the BIOS do: we
     *  treat it as if a 'CR' was also there, so we bring the
     *  cursor to the margin and we increment the 'y' value */
-    else if(c == '\n')
+    else if(*c == '\n')
     {
         csr_x = 0;
         csr_y++;
@@ -120,10 +126,10 @@ void k_printline(unsigned char c)
     *  printable character. The equation for finding the index
     *  in a linear chunk of memory can be represented by:
     *  Index = [(y * width) + x] */
-    else if(c >= ' ')
+    else if(*c >= ' ')
     {
         where = textmemptr + (csr_y * 80 + csr_x);
-        *where = c | att;	/* Character AND attributes: color */
+        *where = *c | att;	/* Character AND attributes: color */
         csr_x++;
     }
 
@@ -146,7 +152,7 @@ void k_printstr(unsigned char *text)
 
     for (i = 0; i < strlen(text); i++)
     {
-        k_printline(text[i]);
+        k_printChar(text[i]);
     }
 }
 

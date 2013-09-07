@@ -31,7 +31,9 @@ struct regs
 extern void k_clear_screen();
 extern void k_scrollText();
 extern unsigned int k_printf(char *message, unsigned int line, unsigned char colour);
-extern void k_printline(unsigned char c);
+extern void k_printline(char* c);
+extern void k_printChar(char c);
+extern void k_printlineN(char* c, int dummy);
 extern void k_printstr(unsigned char *text);
 //extern void update_cursor(int row, int col);
 
